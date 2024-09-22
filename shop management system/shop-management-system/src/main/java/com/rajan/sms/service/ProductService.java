@@ -8,7 +8,7 @@ import java.util.List;
 import com.rajan.sms.entity.Product;
 
 /**
- * com.fci.sms.service
+ * com.rajan.sms.service
  *@author Rajan kumar
  */
 public interface ProductService {

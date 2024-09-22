@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.rajan.sms.entity.Product;
 
 /**
- * com.fci.sms.repository
+ * com.rajan.sms.repository
  *@author Rajan kumar
  */
 @Repository

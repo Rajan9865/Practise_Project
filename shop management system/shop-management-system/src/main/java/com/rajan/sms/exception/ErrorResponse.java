@@ -12,7 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * com.fci.sms.exception
+ * com.rajan.sms.exception
  * 
  * @author Rajan kumar
  */

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * com.fci.sms.entity
+ * com.rajan.sms.entity
  * @author Rajan kumar
  *DelL
  */

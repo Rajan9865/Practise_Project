@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 /**
- * com.fci.sms.exception
+ * com.rajan.sms.exception
  * 
  * @author Rajan kumar
  */

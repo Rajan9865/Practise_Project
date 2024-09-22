@@ -9,7 +9,7 @@ import com.rajan.sms.dto.OrderDTO;
 import com.rajan.sms.entity.Order;
 
 /**
- * com.fci.sms.service
+ * com.rajan.sms.service
  * 
  * @author Rajan kumar
  */

@@ -15,7 +15,7 @@ import com.rajan.sms.repository.ProductRepository;
 import com.rajan.sms.service.ProductService;
 
 /**
- * com.fci.sms.service.ProductServiceImpl
+ * com.rajan.sms.service.ProductServiceImpl
  * 
  * @author rajan kumar
  */
