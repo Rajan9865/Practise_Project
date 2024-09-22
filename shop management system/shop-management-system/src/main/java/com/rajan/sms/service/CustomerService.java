@@ -9,7 +9,7 @@ import com.rajan.sms.dto.CustomerDTO;
 import com.rajan.sms.entity.Customer;
 
 /**
- * com.fci.sms.service
+ * com.rajan.sms.service
  *@author Rajan kumar
  */
 public interface CustomerService {

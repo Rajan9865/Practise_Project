@@ -25,7 +25,7 @@ import com.rajan.sms.service.OrderService;
 import jakarta.validation.Valid;
 
 /**
- * com.fci.sms.controller
+ * com.rajan.sms.controller
  * 
  * @author Rajan kumar
  */

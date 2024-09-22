@@ -4,7 +4,7 @@
 package com.rajan.sms.exception;
 
 /**
- * com.fci.sms.exception
+ * com.rajan.sms.exception
  *@author Rajan kumar
  */
 public class MethodArgumentNotValidException extends RuntimeException {

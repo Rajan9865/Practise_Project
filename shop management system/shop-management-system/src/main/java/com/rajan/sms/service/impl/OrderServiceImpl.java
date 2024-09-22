@@ -21,7 +21,7 @@ import com.rajan.sms.service.OrderService;
 import com.rajan.sms.service.ProductService;
 
 /**
- * com.fci.sms.service.impl
+ * com.rajan.sms.service.impl
  * 
  * @author Rajan kumar
  */

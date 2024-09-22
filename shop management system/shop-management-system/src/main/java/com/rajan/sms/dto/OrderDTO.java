@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * com.fci.sms.dto
+ * com.rajan.sms.dto
  * 
  * @author Rajan kumar
  */

@@ -23,7 +23,7 @@ import com.rajan.sms.exception.ResourceNotFoundException;
 import com.rajan.sms.service.CustomerService;
 
 /**
- * com.fci.sms.controller
+ * com.rajan.sms.controller
  * 
  * @author rajan kumar
  */
