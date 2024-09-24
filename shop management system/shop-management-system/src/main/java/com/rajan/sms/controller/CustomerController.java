@@ -44,12 +44,12 @@ public class CustomerController {
 	@PostMapping
 	public ResponseEntity<String> addCustomer(@RequestBody CustomerDTO customerDTO) {
 		Customer customer = customerService.addCustomer(customerDTO);
-		return new ResponseEntity<String>("Customer added successfully with ID: " + customer.getId(),
-				HttpStatus.CREATED);
+		return new ResponseEntity<>("Customer added successfully with ID: " + customer.getId(), HttpStatus.CREATED);
 	}
 
 	/**
 	 * Update an existing customer by ID.
+	 * 
 	 * @author Rajan kumar
 	 * @param id          ID of the customer to update.
 	 * @param customerDTO Updated customer details.
@@ -59,15 +59,16 @@ public class CustomerController {
 	public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
 		try {
 			Customer updateCustomer = customerService.updateCustomer(id, customerDTO);
-			return new ResponseEntity<String>("Customer updated successfully with ID: " + updateCustomer.getId(),
+			return new ResponseEntity<>("Customer updated successfully with ID: " + updateCustomer.getId(),
 					HttpStatus.OK);
 		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<String>("customer with id :" + id + " not found", HttpStatus.OK);
+			return new ResponseEntity<>("customer with id :" + id + " not found", HttpStatus.OK);
 		}
 	}
 
 	/**
 	 * Get a customer by ID.
+	 * 
 	 * @author Rajan kumar
 	 * @param id ID of the customer to retrieve.
 	 * @return ResponseEntity containing customer details or an error message.
@@ -76,25 +77,27 @@ public class CustomerController {
 	public ResponseEntity<Object> getCustomerById(@PathVariable Long id) {
 		try {
 			Customer customerById = customerService.getCustomerById(id);
-			return new ResponseEntity<Object>(customerById, HttpStatus.OK);
+			return new ResponseEntity<>(customerById, HttpStatus.OK);
 		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<Object>("Customer with ID " + id + " not found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Customer with ID " + id + " not found", HttpStatus.NOT_FOUND);
 		}
 	}
 
 	/**
 	 * Get all customers.
+	 * 
 	 * @author Rajan kumar
 	 * @return ResponseEntity containing a list of all customers.
 	 */
 	@GetMapping
 	public ResponseEntity<List<Customer>> getAllCustomers() {
 		List<Customer> allCustomers = customerService.getAllCustomers();
-		return new ResponseEntity<List<Customer>>(allCustomers, HttpStatus.OK);
+		return new ResponseEntity<>(allCustomers, HttpStatus.OK);
 	}
 
 	/**
 	 * Delete a customer by ID.
+	 * 
 	 * @author Rajan kumar
 	 * @param id ID of the customer to delete.
 	 * @return ResponseEntity containing a success or error message.

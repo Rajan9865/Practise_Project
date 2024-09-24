@@ -21,7 +21,7 @@ public class OrderDTO {
 
 	@NotNull(message = "Customers id required")
 	private Long customerId;
-	
+
 	@NotEmpty(message = "Product IDs cannot be empty")
 	private List<Long> productIds;
 	private Double totalPrice;
