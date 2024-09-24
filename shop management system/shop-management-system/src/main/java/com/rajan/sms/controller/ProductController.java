@@ -23,6 +23,7 @@ import com.rajan.sms.service.ProductService;
 
 /**
  * com.rajan.sms.controller
+ * 
  * @author Rajan kumar
  * 
  */
@@ -35,15 +36,16 @@ public class ProductController {
 
 	/**
 	 * Add a new product to the system.
+	 * 
 	 * @param Product details to be added.
 	 * @return ResponseEntity containing success message and the product ID of the
-	 * newly added product.
+	 *         newly added product.
 	 * @author Rajan kumar
 	 */
 	@PostMapping
 	public ResponseEntity<String> addProduct(@RequestBody Product product) {
 		Product newProduct = productService.addProduct(product);
-		return new ResponseEntity<String>("product addedd successfull with this id " + newProduct.getId(),
+		return new ResponseEntity<>("product addedd successfull with this id " + newProduct.getId(),
 				HttpStatus.CREATED);
 	}
 
@@ -60,12 +62,13 @@ public class ProductController {
 			return new ResponseEntity<>("product updated successfully wit this id " + updateProduct.getId(),
 					HttpStatus.OK);
 		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<String>("product with this id " + id + " not found ", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("product with this id " + id + " not found ", HttpStatus.NOT_FOUND);
 		}
 	}
 
 	/**
 	 * Retrieve all products.
+	 * 
 	 * @author Rajan kumar
 	 * @return ResponseEntity containing a list of all products.
 	 */
@@ -77,6 +80,7 @@ public class ProductController {
 
 	/**
 	 * Delete a product by ID.
+	 * 
 	 * @author Rajan kumar
 	 * @param id ID of the product to be deleted.
 	 * @return ResponseEntity containing success or error message.
@@ -85,15 +89,16 @@ public class ProductController {
 	public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
 		try {
 			productService.deleteProduct(id);
-			return new ResponseEntity<String>("product deleted successfully with this id " + id, HttpStatus.OK);
+			return new ResponseEntity<>("product deleted successfully with this id " + id, HttpStatus.OK);
 		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<String>("product with this id " + id + " not found ", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("product with this id " + id + " not found ", HttpStatus.NOT_FOUND);
 		}
 	}
 
 	// Update stock for a product
 	/**
 	 * Update stock for a specific product.
+	 * 
 	 * @author Rajan kumar
 	 * @param id       ID of the product whose stock needs to be updated.
 	 * @param quantity New stock quantity to be set.
@@ -103,20 +108,20 @@ public class ProductController {
 	public ResponseEntity<String> updataStock(@PathVariable Long id, @RequestParam int quantity) {
 		try {
 			productService.updateStock(id, quantity);
-			return new ResponseEntity<String>("Stock updated successfully for Product ID: " + id, HttpStatus.OK);
+			return new ResponseEntity<>("Stock updated successfully for Product ID: " + id, HttpStatus.OK);
 		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<String>("product with this id " + id + " not found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("product with this id " + id + " not found", HttpStatus.NOT_FOUND);
 		} catch (InsufficientStockException exception) {
-			return new ResponseEntity<String>("Invalid stock update: " + exception.getMessage(),
-					HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Invalid stock update: " + exception.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	// Check stock for a product
 	/**
 	 * Check if a product is in stock for a specific quantity.
+	 * 
 	 * @author Rajan kumar
-	 * @param id       
+	 * @param id
 	 * @param quantity Quantity to check.
 	 * @return ResponseEntity indicating whether the product is in stock.
 	 */
@@ -127,7 +132,7 @@ public class ProductController {
 			return new ResponseEntity<>(productInStock ? "Product is in stock for the requested quantity"
 					: "Insufficient stock for Product ID: " + id, HttpStatus.OK);
 		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<String>("Product with this ID " + id + " not found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Product with this ID " + id + " not found", HttpStatus.NOT_FOUND);
 		}
 	}
 }

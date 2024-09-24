@@ -38,6 +38,7 @@ public class OrderController {
 
 	/**
 	 * Place a new order.
+	 * 
 	 * @author Rajan kumar
 	 * @param orderDTO Order data transfer object containing product IDs and other
 	 *                 order details.
@@ -45,18 +46,17 @@ public class OrderController {
 	 */
 	@PostMapping
 	public ResponseEntity<String> placeOrder(@Valid @RequestBody OrderDTO orderDTO) {
-		System.out.println("hello order");
 		if (orderDTO.getProductIds() == null || orderDTO.getProductIds().isEmpty()) {
 			throw new InvalidRequestException("No products selected for the order.");
 		}
 
 		Order placeOrder = orderService.placeOrder(orderDTO);
-		return new ResponseEntity<String>("Order placed successfully with ID: " + placeOrder.getId(),
-				HttpStatus.CREATED);
+		return new ResponseEntity<>("Order placed successfully with ID: " + placeOrder.getId(), HttpStatus.CREATED);
 	}
 
 	/**
 	 * Get an order by ID.
+	 * 
 	 * @author Rajan kumar
 	 * @param id ID of the order to retrieve.
 	 * @return ResponseEntity containing the order details or an error message.
@@ -65,25 +65,27 @@ public class OrderController {
 	public ResponseEntity<Object> getOrderById(@PathVariable Long id) {
 		try {
 			Order orderById = orderService.getOrderById(id);
-			return new ResponseEntity<Object>(orderById, HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) { 
+			return new ResponseEntity<>(orderById, HttpStatus.OK);
+		} catch (ResourceNotFoundException exception) {
 			return new ResponseEntity<Object>("order with id " + id + " not Found", HttpStatus.NOT_FOUND);
 		}
 	}
 
 	/**
 	 * Get all orders.
+	 * 
 	 * @author Rajan kumar
 	 * @return ResponseEntity containing a list of all orders.
 	 */
 	@GetMapping
 	public ResponseEntity<List<Order>> getAllOrders() {
 		List<Order> allOrders = orderService.getAllOrders();
-		return new ResponseEntity<List<Order>>(allOrders, HttpStatus.OK);
+		return new ResponseEntity<>(allOrders, HttpStatus.OK);
 	}
 
 	/**
 	 * Delete an order by ID.
+	 * 
 	 * @author Rajan kumar
 	 * @param id ID of the order to delete.
 	 * @return ResponseEntity containing a success or error message.
@@ -92,9 +94,9 @@ public class OrderController {
 	public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
 		try {
 			orderService.deleteById(id);
-			return new ResponseEntity<String>(" order deleted successfully with this id " + id, HttpStatus.OK);
+			return new ResponseEntity<>(" order deleted successfully with this id " + id, HttpStatus.OK);
 		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<String>("order with this id " + id + " not found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("order with this id " + id + " not found", HttpStatus.NOT_FOUND);
 		}
 	}
 }

@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
 				ex.getMessage(),
 				request.getDescription(false), 
 				request.getContextPath());
-		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 
 	// Handle insufficient stock exceptions
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
 				ex.getMessage(),
 				request.getDescription(false), 
 				request.getContextPath());
-		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 	// Handle invalid request exceptions
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
 				ex.getMessage(),
 				request.getDescription(false), 
 				request.getContextPath());
-		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 	// Handle all other exceptions
@@ -59,6 +59,6 @@ public class GlobalExceptionHandler {
 				"An unexpected error occurred.",
 				request.getDescription(false), 
 				request.getContextPath());
-		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
