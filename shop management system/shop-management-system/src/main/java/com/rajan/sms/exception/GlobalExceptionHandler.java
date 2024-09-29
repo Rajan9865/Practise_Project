@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import com.rajan.sms.util.ErrorMessage;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * com.rajan.sms.exception
  * 
@@ -19,12 +23,14 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex,
-			WebRequest request) {
+			HttpServletRequest request) {
+		String detail=ErrorMessage.getResourceNotFoundMessage(ex.getResourceName(), ex.getResourceId());
 		ErrorResponse errorResponse = new ErrorResponse(
 				HttpStatus.NOT_FOUND.value(), 
 				ex.getMessage(),
-				request.getDescription(false), 
-				request.getContextPath());
+//				"Customer is  not found",
+				detail,
+				request.getRequestURI());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 

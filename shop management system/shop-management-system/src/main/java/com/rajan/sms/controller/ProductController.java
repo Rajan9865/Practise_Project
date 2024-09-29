@@ -57,13 +57,8 @@ public class ProductController {
 	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-		try {
-			Product updateProduct = productService.updateProduct(id, product);
-			return new ResponseEntity<>("product updated successfully wit this id " + updateProduct.getId(),
-					HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<>("product with this id " + id + " not found ", HttpStatus.NOT_FOUND);
-		}
+		Product updateProduct = productService.updateProduct(id, product);
+		return new ResponseEntity<>("product updated successfully wit this id " + updateProduct.getId(), HttpStatus.OK);
 	}
 
 	/**
@@ -87,12 +82,8 @@ public class ProductController {
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-		try {
 			productService.deleteProduct(id);
 			return new ResponseEntity<>("product deleted successfully with this id " + id, HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<>("product with this id " + id + " not found ", HttpStatus.NOT_FOUND);
-		}
 	}
 
 	// Update stock for a product
@@ -106,14 +97,8 @@ public class ProductController {
 	 */
 	@PatchMapping("/{id}/stock")
 	public ResponseEntity<String> updataStock(@PathVariable Long id, @RequestParam int quantity) {
-		try {
-			productService.updateStock(id, quantity);
-			return new ResponseEntity<>("Stock updated successfully for Product ID: " + id, HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<>("product with this id " + id + " not found", HttpStatus.NOT_FOUND);
-		} catch (InsufficientStockException exception) {
-			return new ResponseEntity<>("Invalid stock update: " + exception.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+		productService.updateStock(id, quantity);
+		return new ResponseEntity<>("Stock updated successfully for Product ID: " + id, HttpStatus.OK);
 	}
 
 	// Check stock for a product
@@ -127,12 +112,8 @@ public class ProductController {
 	 */
 	@GetMapping("/{id}/stock")
 	public ResponseEntity<String> isProductInStock(@PathVariable Long id, @RequestParam int quantity) {
-		try {
 			boolean productInStock = productService.isProductInStock(id, quantity);
 			return new ResponseEntity<>(productInStock ? "Product is in stock for the requested quantity"
 					: "Insufficient stock for Product ID: " + id, HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<>("Product with this ID " + id + " not found", HttpStatus.NOT_FOUND);
-		}
 	}
 }

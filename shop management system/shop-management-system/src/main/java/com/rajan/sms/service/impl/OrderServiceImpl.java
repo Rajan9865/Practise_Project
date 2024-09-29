@@ -20,12 +20,15 @@ import com.rajan.sms.repository.ProductRepository;
 import com.rajan.sms.service.OrderService;
 import com.rajan.sms.service.ProductService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * com.rajan.sms.service.impl
  * 
  * @author Rajan kumar
  */
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
@@ -36,52 +39,68 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private ProductService productService;
 
 	@Override
 	public Order placeOrder(OrderDTO orderDTO) {
-
-		Customer customer = customerRepository.findById(orderDTO.getCustomerId())
-				.orElseThrow(() -> new ResourceNotFoundException("customer not found with id :"+orderDTO.getCustomerId()));
+		log.info("Placing order for customer ID: {}", orderDTO.getCustomerId());
+		Customer customer = customerRepository.findById(orderDTO.getCustomerId()).orElseThrow(
+				() -> new ResourceNotFoundException("customer not found with id :", orderDTO.getCustomerId()));
 
 		List<Product> products = productRepository.findAllById(orderDTO.getProductIds());
 
 		// Check stock before placing the order
-		for (Product product : products) {
-			if (!productService.isProductInStock(product.getId(), 1)) {
+		for (int i = 0; i < products.size(); i++) {
+			Product product = products.get(i);
+			int requestedQuantity = orderDTO.getQuantities().get(i);
+			if (!productService.isProductInStock(product.getId(), requestedQuantity)) {
+				log.error("Insufficient stock for product: {}", product.getName());
 				throw new InsufficientStockException("Product out of stock: " + product.getName());
 			}
 		}
 		// Deduct stock for each product
-		for (Product product : products) {
-			productService.updateStock(product.getId(), 1);
+		for (int i = 0; i < products.size(); i++) {
+			Product product = products.get(i);
+			int requestedQuantity = orderDTO.getQuantities().get(i);
+			productService.updateStock(product.getId(), requestedQuantity);
+			log.info("Updated stock for product ID: {} by quantity: {}", product.getId(), requestedQuantity);
 		}
+
 		double totalPrize = products.stream().mapToDouble(Product::getPrice).sum();
 		Order order = new Order();
 		order.setCustomerId(customer);
 		order.setProducts(products);
 		order.setTotalPrize(totalPrize);
-		return orderRepository.save(order);
+		Order saveOrder = orderRepository.save(order);
+		log.info("Order placed successfully with ID: {}", saveOrder.getId());
+		return saveOrder;
 	}
-	
+
 	@Override
 	public List<Order> getAllOrders() {
-		return orderRepository.findAll();
+		log.info("Fetching all orders");
+		List<Order> orders = orderRepository.findAll();
+		log.info("Total orders fetched: {}", orders.size());
+		return orders;
 	}
 
 	@Override
 	public Order getOrderById(Long id) {
-		return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+		log.info("Fetching order with ID: {}", id);
+		return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found", id));
 	}
 
 	@Override
 	public void deleteById(Long id) {
+		log.info("Deleting order with ID: {}", id);
 		if (!orderRepository.existsById(id)) {
-	        throw new ResourceNotFoundException("Order with this ID " + id + " not found");
-	    }
+			log.error("Order not found with ID: {}", id);
+			throw new ResourceNotFoundException("Order ", id);
+		}
 		orderRepository.deleteById(id);
+		log.info("Order deleted with ID: {}", id);
 	}
 
 }
