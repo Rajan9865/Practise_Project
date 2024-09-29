@@ -57,13 +57,9 @@ public class CustomerController {
 	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
-		try {
-			Customer updateCustomer = customerService.updateCustomer(id, customerDTO);
-			return new ResponseEntity<>("Customer updated successfully with ID: " + updateCustomer.getId(),
-					HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<>("customer with id :" + id + " not found", HttpStatus.OK);
-		}
+		Customer updateCustomer = customerService.updateCustomer(id, customerDTO);
+		return new ResponseEntity<>("Customer updated successfully with ID: " + updateCustomer.getId(), HttpStatus.OK);
+
 	}
 
 	/**
@@ -75,12 +71,8 @@ public class CustomerController {
 	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getCustomerById(@PathVariable Long id) {
-		try {
-			Customer customerById = customerService.getCustomerById(id);
-			return new ResponseEntity<>(customerById, HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<>("Customer with ID " + id + " not found", HttpStatus.NOT_FOUND);
-		}
+		Customer customerById = customerService.getCustomerById(id);
+		return new ResponseEntity<>(customerById, HttpStatus.OK);
 	}
 
 	/**
@@ -104,11 +96,8 @@ public class CustomerController {
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
-		try {
-			customerService.deleteCustomer(id);
-			return new ResponseEntity<>("Customer deleted successfully with this ID: " + id, HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<>("Customer with this ID " + id + " not found", HttpStatus.NOT_FOUND);
-		}
+		customerService.deleteCustomer(id);
+		return new ResponseEntity<String>("Customer deleted successfully with this id :" + id, HttpStatus.OK);
+
 	}
 }

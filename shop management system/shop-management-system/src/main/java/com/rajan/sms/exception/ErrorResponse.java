@@ -5,11 +5,8 @@ package com.rajan.sms.exception;
 
 import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * com.rajan.sms.exception
@@ -28,7 +25,7 @@ public class ErrorResponse {
     
     public ErrorResponse(int statusCode,String message,String details,String path)
     {
-    	this.timestamp=timestamp;
+    	this.timestamp=LocalDateTime.now();
     	this.statusCode=statusCode;
     	this.message=message;
     	this.details=details;

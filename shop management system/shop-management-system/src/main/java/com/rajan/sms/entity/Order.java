@@ -20,7 +20,6 @@ import lombok.Setter;
 /**
  * com.rajan.sms.entity
  * @author Rajan kumar
- *DelL
  */
 @Getter
 @Setter
@@ -39,5 +38,6 @@ public class Order {
 	
 	@ManyToMany
 	private List<Product>products;
+	
 	private Double	totalPrize;
 }

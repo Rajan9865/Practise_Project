@@ -63,12 +63,8 @@ public class OrderController {
 	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getOrderById(@PathVariable Long id) {
-		try {
 			Order orderById = orderService.getOrderById(id);
 			return new ResponseEntity<>(orderById, HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<Object>("order with id " + id + " not Found", HttpStatus.NOT_FOUND);
-		}
 	}
 
 	/**
@@ -92,11 +88,8 @@ public class OrderController {
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
-		try {
-			orderService.deleteById(id);
-			return new ResponseEntity<>(" order deleted successfully with this id " + id, HttpStatus.OK);
-		} catch (ResourceNotFoundException exception) {
-			return new ResponseEntity<>("order with this id " + id + " not found", HttpStatus.NOT_FOUND);
-		}
+		orderService.deleteById(id);
+		return new ResponseEntity<>(" order deleted successfully with this id " + id, HttpStatus.OK);
+
 	}
 }
