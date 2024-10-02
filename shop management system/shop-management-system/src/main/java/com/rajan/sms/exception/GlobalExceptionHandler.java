@@ -28,7 +28,6 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(
 				HttpStatus.NOT_FOUND.value(), 
 				ex.getMessage(),
-//				"Customer is  not found",
 				detail,
 				request.getRequestURI());
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
@@ -56,7 +55,29 @@ public class GlobalExceptionHandler {
 				request.getContextPath());
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
+	
 
+	@ExceptionHandler(CategoryNotFoundException.class)
+	public ResponseEntity<ErrorResponse>handleCategoryNotFound(CategoryNotFoundException ex,WebRequest request)
+	{
+		ErrorResponse errorResponse=new ErrorResponse(
+				HttpStatus.NOT_FOUND.value(),
+				ex.getMessage(),
+				request.getDescription(false),
+				request.getContextPath());
+		return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(InvalidCategoryException.class)
+	public ResponseEntity<ErrorResponse>handleInvalidCategory(InvalidCategoryException exception,WebRequest request)
+	{
+		ErrorResponse errorResponse=new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+				exception.getMessage(),
+				request.getDescription(false),
+				request.getContextPath());
+		return new ResponseEntity<ErrorResponse>(errorResponse,HttpStatus.BAD_REQUEST);
+	}
+	
 	// Handle all other exceptions
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, WebRequest request) {
@@ -67,4 +88,6 @@ public class GlobalExceptionHandler {
 				request.getContextPath());
 		return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+
 }
