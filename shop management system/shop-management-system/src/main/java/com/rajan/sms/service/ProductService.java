@@ -12,6 +12,7 @@ import com.rajan.sms.entity.Product;
  *@author Rajan kumar
  */
 public interface ProductService {
+	
 	// for add the product
 	Product addProduct(Product product);
 	
