@@ -12,6 +12,6 @@ import com.rajan.sms.entity.Category;
  * 
  * @author Rajan kumar
  */
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long>{
 
 }

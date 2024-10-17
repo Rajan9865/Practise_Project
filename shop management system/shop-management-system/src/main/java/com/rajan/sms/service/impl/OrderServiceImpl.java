@@ -3,7 +3,9 @@
  */
 package com.rajan.sms.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,16 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private ProductService productService;
+	
+	private OrderDTO convertToDto(Order order) {
+		List<Long> productIds = order.getProducts().stream().map(Product::getId).collect(Collectors.toList());
 
+		List<Integer> quantities = order.getQuantities();
+
+		return new OrderDTO(productIds, order.getCustomer().getId(), quantities, order.getOrderDate(),
+				order.getTotalPrice());
+	}
+	
 	@Override
 	public Order placeOrder(OrderDTO orderDTO) {
 		log.info("Placing order for customer ID: {}", orderDTO.getCustomerId());
@@ -70,9 +81,11 @@ public class OrderServiceImpl implements OrderService {
 
 		double totalPrize = products.stream().mapToDouble(Product::getPrice).sum();
 		Order order = new Order();
-		order.setCustomerId(customer);
+//		order.setCustomerId(customer);
 		order.setProducts(products);
-		order.setTotalPrize(totalPrize);
+		order.setOrderDate(LocalDateTime.now());
+		order.setTotalPrice(totalPrize);
+		order.setCustomer(customer);
 		Order saveOrder = orderRepository.save(order);
 		log.info("Order placed successfully with ID: {}", saveOrder.getId());
 		return saveOrder;
@@ -101,6 +114,21 @@ public class OrderServiceImpl implements OrderService {
 		}
 		orderRepository.deleteById(id);
 		log.info("Order deleted with ID: {}", id);
+	}
+
+	@Override
+	public List<OrderDTO> getCustomerOrders(Long customersId) {
+		
+		List<Order> orders = orderRepository.findByCustomerId(customersId);
+        return orders.stream()
+                     .map(this::convertToDto)
+                     .collect(Collectors.toList());
+		
+	}
+
+	@Override
+	public Boolean customerExists(Long customerId) {
+		return customerExists(customerId);
 	}
 
 }

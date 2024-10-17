@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rajan.sms.dto.CustomerDTO;
+import com.rajan.sms.dto.OrderDTO;
 import com.rajan.sms.entity.Customer;
 import com.rajan.sms.exception.ResourceNotFoundException;
 import com.rajan.sms.service.CustomerService;
+import com.rajan.sms.service.OrderService;
 
 /**
  * com.rajan.sms.controller
@@ -33,6 +35,9 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	/**
 	 * Add a new customer to the system.
@@ -99,5 +104,20 @@ public class CustomerController {
 		customerService.deleteCustomer(id);
 		return new ResponseEntity<String>("Customer deleted successfully with this id :" + id, HttpStatus.OK);
 
+	}
+	
+	@GetMapping("/{customerId}/orders")
+	public ResponseEntity<List<OrderDTO>>getCustomerOrders(@PathVariable Long customerId)
+	{
+		Boolean customerExists = orderService.customerExists(customerId);
+		if (!customerExists) {
+			throw new ResourceNotFoundException("Customer not found with this ID: ", customerId);
+		}
+		List<OrderDTO> customerOrders = orderService.getCustomerOrders(customerId);
+		if (customerOrders.isEmpty()) {
+			throw new ResourceNotFoundException("No orders found for customer with ID: ", customerId);
+		}
+		return new ResponseEntity<>(customerOrders, HttpStatus.OK);
+		
 	}
 }

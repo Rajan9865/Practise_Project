@@ -22,4 +22,8 @@ public interface OrderService {
 	Order getOrderById(Long id);
 
 	void deleteById(Long id);
+	
+	List<OrderDTO>getCustomerOrders(Long customersId);
+	
+	Boolean customerExists(Long customerId);
 }
