@@ -13,17 +13,13 @@ import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.service.EmployeeService;
 
 /**
- * @author deby7
- *8:07:28 am
- *2024
- *demo
- *TODO
+ * @author deby7 8:07:28 am 2024 demo TODO
  */
 @Service
-public class EmployeeServiceImpl  implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
 
 	private EmployeeRepository employeeRepository;
-	
+
 	/**
 	 * @param employeeRepository
 	 */
@@ -35,7 +31,7 @@ public class EmployeeServiceImpl  implements EmployeeService{
 	@Override
 	public Employee saveEmployee(Employee employee) {
 		return employeeRepository.save(employee);
- }
+	}
 
 	@Override
 	public List<Employee> getAllEmployees() {
@@ -44,14 +40,14 @@ public class EmployeeServiceImpl  implements EmployeeService{
 
 	@Override
 	public Employee getEmployeeById(long id) {
-		return employeeRepository.findById(id).orElseThrow(()->new ResoucreNotFoundException("Employee", "Id", id));
+		return employeeRepository.findById(id).orElseThrow(() -> new ResoucreNotFoundException("Employee", "Id", id));
 	}
 
 	@Override
 	public Employee updateEmployee(Employee employee, long id) {
 		// we need to check whether employee given id is exist in db or not
-		Employee existEmployee=employeeRepository.findById(id).orElseThrow(
-				()-> new ResoucreNotFoundException("Employee", "Id", id));
+		Employee existEmployee = employeeRepository.findById(id)
+				.orElseThrow(() -> new ResoucreNotFoundException("Employee", "Id", id));
 		existEmployee.setName(employee.getName());
 		existEmployee.setLastname(employee.getLastname());
 		existEmployee.setEmail(employee.getEmail());
@@ -63,14 +59,12 @@ public class EmployeeServiceImpl  implements EmployeeService{
 	@Override
 	public void deleteEmplyee(long id) {
 		// check wheather a emloyee exist in db or not
-		 Employee employee = employeeRepository.findById(id)
-		            .orElseThrow(() -> new ResoucreNotFoundException("Employee", "Id", id));
+		Employee employee = employeeRepository.findById(id)
+				.orElseThrow(() -> new ResoucreNotFoundException("Employee", "Id", id));
 
-		    // if the employee exists, delete it
-		    employeeRepository.deleteById(id);
-		 
+		// if the employee exists, delete it
+		employeeRepository.deleteById(id);
+
 	}
-
-
 
 }
