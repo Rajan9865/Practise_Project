@@ -8,6 +8,7 @@ class ShopManagementSystemApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("heelo");
 	}
 
 }
