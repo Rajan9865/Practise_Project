@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.fci.sms.repository;
+package com.rajan.sms.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
