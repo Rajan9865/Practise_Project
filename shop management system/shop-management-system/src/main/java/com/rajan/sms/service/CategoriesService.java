@@ -4,7 +4,6 @@
 package com.rajan.sms.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.rajan.sms.entity.Category;
 
@@ -24,5 +23,4 @@ public interface CategoriesService {
 	Category updateCategory(Long id, String name);
 
 	void deleteCategory(Long id);
-
 }
