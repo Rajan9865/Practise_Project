@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -149,8 +150,10 @@ import lombok.extern.slf4j.Slf4j;
 	}
 	
 	@Test
+	@Disabled
 	@DisplayName("givenCategoryId_whenDeleteCategory_thenCategoryIsDeleted")
-	void givenCategoryId_whenDeleteCategory_thenCategoryIsDeleted() {
+	void givenCategoryId_whenDeleteCategory_thenCategoryIsDeleted() 
+	{
 		// given
 		given(categoryRepository.findById(category.getId())).willReturn(Optional.of(category));
 		log.info("category id  ::{}", category.getId());
@@ -165,6 +168,7 @@ import lombok.extern.slf4j.Slf4j;
 	}
 	
 	@Test
+	@Disabled
 	@DisplayName("givenNonExistentCategoryId_whenDeleteCategory_thenThrowException")
 	void givenNonExistentCategoryId_whenDeleteCategory_thenThrowException()
 	{

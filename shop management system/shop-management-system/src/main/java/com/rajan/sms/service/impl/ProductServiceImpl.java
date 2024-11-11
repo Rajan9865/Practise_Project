@@ -4,13 +4,17 @@
 package com.rajan.sms.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rajan.sms.entity.Category;
 import com.rajan.sms.entity.Product;
+import com.rajan.sms.exception.CategoryNotFoundException;
 import com.rajan.sms.exception.InsufficientStockException;
 import com.rajan.sms.exception.ResourceNotFoundException;
+import com.rajan.sms.repository.CategoryRepository;
 import com.rajan.sms.repository.ProductRepository;
 import com.rajan.sms.service.ProductService;
 
@@ -27,14 +31,23 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public Product addProduct(Product product) {
-		log.info("Adding new product: {}", product.getName());
-		Product saveProduct= productRepository.save(product);
-		log.info("Product added with ID: {}", saveProduct.getId());
-		return saveProduct;
+//		log.info("Adding new product: {}", product.getName());
+//		Product saveProduct= productRepository.save(product);
+//		log.info("Product added with ID: {}", saveProduct.getId());
+//		return saveProduct;
 
+		Optional<Category> categoryOptional = categoryRepository.findById(product.getCategory().getId());
+		if (categoryOptional.isEmpty()) {
+			throw new CategoryNotFoundException("Category not found");
+		}
+		product.setCategory(categoryOptional.get());
+		return productRepository.save(product);
 	}
 
 	@Override
