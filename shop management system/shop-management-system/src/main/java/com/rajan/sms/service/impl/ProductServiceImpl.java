@@ -42,12 +42,22 @@ public class ProductServiceImpl implements ProductService {
 //		log.info("Product added with ID: {}", saveProduct.getId());
 //		return saveProduct;
 
+//		Optional<Category> categoryOptional = categoryRepository.findById(product.getCategory().getId());
+//		if (categoryOptional.isEmpty()) {
+//			throw new CategoryNotFoundException("Category not found");
+//		}
+//		product.setCategory(categoryOptional.get());
+//		return productRepository.save(product);
+		
+		if (product.getCategory() == null) {
+	        throw new CategoryNotFoundException("Category is null");
+	    }
 		Optional<Category> categoryOptional = categoryRepository.findById(product.getCategory().getId());
-		if (categoryOptional.isEmpty()) {
-			throw new CategoryNotFoundException("Category not found");
-		}
-		product.setCategory(categoryOptional.get());
-		return productRepository.save(product);
+	    if (categoryOptional.isEmpty()) {
+	        throw new CategoryNotFoundException("Category not found");
+	    }
+	    product.setCategory(categoryOptional.get());
+	    return productRepository.save(product);
 	}
 
 	@Override
@@ -58,6 +68,16 @@ public class ProductServiceImpl implements ProductService {
 		existingProduct.setName(product.getName());
 		existingProduct.setPrice(product.getPrice());
 		existingProduct.setStock(product.getStock());
+		
+		if (product.getCategory()!=null) {
+			Optional<Category> categoryOptional = categoryRepository.findById(product.getCategory().getId());
+			if (categoryOptional.isEmpty()) {
+				throw new CategoryNotFoundException("Category not found");
+			}
+			existingProduct.setCategory(categoryOptional.get());
+			
+		}
+		
 		Product updateProduct = productRepository.save(existingProduct);
 		log.info("Updating product with ID: {}", id);
 		return updateProduct;

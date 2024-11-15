@@ -103,13 +103,16 @@ public class CustomerServiceTest {
 		Customer updateCustomer = customerService.updateCustomer(id, customerDTO);
 
 		// then
+		log.info("Verifying repository interactions for customer ID: {}",id);
 		then(customerRepository).should().findById(id);
 		then(customerRepository).should().save(existingCustomer);
 
 		// assertations
+		log.info("Asserting that the customer details are updated");
 		assertThat(updateCustomer.getName()).isEqualTo(customerDTO.getName());
 		assertThat(updateCustomer.getEmail()).isEqualTo(customerDTO.getEmail());
 		assertThat(updateCustomer.getAddress()).isEqualTo(customerDTO.getAddress());
+		log.info("Test completed successfully");
 	}
 
 	@Test
@@ -117,39 +120,50 @@ public class CustomerServiceTest {
 	void givenCusstomer_whenUpdatingNonExistingCustomer_thenThrowException() {
 		// given
 		long id = 1l;
-		CustomerDTO customerDTO = new CustomerDTO("Updated Name", "updated.email@example.com", "Updated Address");
+		CustomerDTO customerDTO = new CustomerDTO("rajan", "rajan@gmail.com", "Rajan kumar");
 		given(customerRepository.findById(id)).willReturn(Optional.empty());
 
 		// when/then
 		assertThrows(ResourceNotFoundException.class, () -> customerService.updateCustomer(id, customerDTO));
+		log.info("Verifying repository interactions");
 		then(customerRepository).should().findById(id);
 		then(customerRepository).shouldHaveNoMoreInteractions();
+		log.info("Test completed successfully");
 	}
 	
 	@Test
-	@Disabled
+//	@Disabled
 	@DisplayName("givenCustomer_whenDeleteExistingCustomer_thenCustomerIsDeleted")
 	void givenCustomer_whenDeleteExistingCustomer_thenCustomerIsDeleted()
 	{
-		Customer saveCustomer = customerRepository.save(customer);
+//		Customer saveCustomer = customerRepository.save(customer);
+		
 		//given
-		willDoNothing().given(customerRepository).deleteById(saveCustomer.getId());
+		given(customerRepository.existsById(customer.getId())).willReturn(true);
+		willDoNothing().given(customerRepository).deleteById(customer.getId());
 		//when
-		customerService.deleteCustomer(saveCustomer.getId());
+		customerService.deleteCustomer(customer.getId());
 		//then
-		then(customerRepository).should().deleteById(saveCustomer.getId());
+		log.info("Verifying that deleteById and existsById were called for customer ID: {}", customer.getId());
+		then(customerRepository).should().deleteById(customer.getId());
+		then(customerRepository).should().existsById(customer.getId());
+		log.info("Test completed successfully");
 	}
 	
 	@Test
 	@DisplayName("givenCustomer_whenDeleteNonExistingCustomer_thenThrowException")
 	void givenCustomer_whenDeleteNonExistingCustomer_thenThrowException()
 	{
-		long id=1l;
-		willThrow(new ResourceNotFoundException("customer not found", 1l)).given(customerRepository).deleteById(id);;
+//		long id=1l;
+//		willThrow(new ResourceNotFoundException("customer not found", 1l)).given(customerRepository).deleteById(id);;
+		given(customerRepository.existsById(customer.getId())).willReturn(false);
 		
 		//when/then
-		assertThrows(ResourceNotFoundException.class, ()->customerService.deleteCustomer(id));
-		then(customerRepository).should().deleteById(id);
+		assertThrows(ResourceNotFoundException.class, ()->customerService.deleteCustomer(customer.getId()));
+		log.info("Verifying repository interactions");
+		then(customerRepository).should(never()).deleteById(customer.getId());
+		then(customerRepository).should().existsById(customer.getId());
+		log.info("Test completed successfully");
 	}
 	@Test
 	@DisplayName("givenCustomer_whenExistsCustomers_thenReturnAllCustomers")
@@ -167,6 +181,7 @@ public class CustomerServiceTest {
 		then(customerRepository).should().findAll();
 		assertThat(allCustomers).hasSize(2);
 		assertThat(allCustomers).containsExactlyInAnyOrder(customer1,customer);
+		log.info("Test completed successfully");
 	}
 	
 	@Test
@@ -181,6 +196,7 @@ public class CustomerServiceTest {
 		//then
 		then(customerRepository).should().findAll();
 		assertThat(allCustomers).isEmpty();
+		log.info("Test completed successfully");
 	}
 	
 	@Test
@@ -192,6 +208,7 @@ public class CustomerServiceTest {
 		// when/then
 		assertThrows(ResourceNotFoundException.class, () -> customerService.getCustomerById(id));
 		then(customerRepository).should().findById(id);
+		log.info("Test completed successfully");
 	}
 	
 	@Test
@@ -212,6 +229,7 @@ public class CustomerServiceTest {
 		assertThat(foundCustomer.getAddress()).isEqualTo(customer.getAddress());
 		assertThat(foundCustomer.getEmail()).isEqualTo(customer.getEmail());
 		assertThat(foundCustomer.getName()).isEqualTo(customer.getName());
+		log.info("Test completed successfully");
 		
 	}
 }
