@@ -48,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
 				.orElseThrow(() -> new ResourceNotFoundException("Customer not found", id));
 		customer.setName(customerDTO.getName());
 		customer.setAddress(customerDTO.getAddress());
-		customer.setEmail(customerDTO.getAddress());
+		customer.setEmail(customerDTO.getEmail());
 		return customerRepository.save(customer);
 
 	}
