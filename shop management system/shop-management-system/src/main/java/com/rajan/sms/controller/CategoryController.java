@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/categories/")
 public class CategoryController {
-	
+
 	@Autowired
 	private CategoriesService categoriesService;
 
@@ -40,40 +40,41 @@ public class CategoryController {
 	public ResponseEntity<String> createCategory(@RequestBody Map<String, String> request) {
 		Category category = categoriesService.createCategory(request.get("name"));
 		log.info("Category created successfully with ID: {}", category.getId());
-		return new ResponseEntity<>("Customer added successfully with this ID: " + category.getId(), HttpStatus.CREATED);
+		return new ResponseEntity<>("Customer added successfully with this ID: " + category.getId(),
+				HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<List<Category>> getAllCategories() {
 		log.info("fetsching all category ");
 		List<Category> allCategories = categoriesService.getAllCategories();
-		log.info("received {} categories ",allCategories.size());
+		log.info("received {} categories ", allCategories.size());
 		return new ResponseEntity<>(allCategories, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
-		log.info("fetching category with this id {}",id);
+		log.info("fetching category with this id {}", id);
 		Category categoryById = categoriesService.getCategoryById(id);
-		log.info("retrived category {}",categoryById);
+		log.info("retrived category {}", categoryById);
 		return new ResponseEntity<>(categoryById, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<String>updateCategory(@PathVariable Long id,@RequestBody Category category)
-	{
-		log.info("updating category with this id {}",id);
+	public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+		log.info("updating category with this id {}", id);
 		Category updateCategory = categoriesService.updateCategory(id, category.getName());
-		log.info("updated catefory : {}",updateCategory);
-		return new ResponseEntity<>("Cetegory successfully updated with this id "+updateCategory.getId(),HttpStatus.OK);
+		log.info("updated catefory : {}", updateCategory);
+		return new ResponseEntity<>("Cetegory successfully updated with this id " + updateCategory.getId(),
+				HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
-		log.info("deleting category with this id {}",id);
+		log.info("deleting category with this id {}", id);
 		categoriesService.deleteCategory(id);
-		log.info("category deleted with this id {}",id);
+		log.info("category deleted with this id {}", id);
 		return new ResponseEntity<>("category deleted successfully with this id :" + id, HttpStatus.OK);
 	}
-	
+
 }

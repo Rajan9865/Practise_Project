@@ -82,8 +82,8 @@ public class ProductController {
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-			productService.deleteProduct(id);
-			return new ResponseEntity<>("product deleted successfully with this id " + id, HttpStatus.OK);
+		productService.deleteProduct(id);
+		return new ResponseEntity<>("product deleted successfully with this id " + id, HttpStatus.OK);
 	}
 
 	// Update stock for a product
@@ -112,8 +112,8 @@ public class ProductController {
 	 */
 	@GetMapping("/{id}/stock")
 	public ResponseEntity<String> isProductInStock(@PathVariable Long id, @RequestParam int quantity) {
-			boolean productInStock = productService.isProductInStock(id, quantity);
-			return new ResponseEntity<>(productInStock ? "Product is in stock for the requested quantity"
-					: "Insufficient stock for Product ID: " + id, HttpStatus.OK);
+		boolean productInStock = productService.isProductInStock(id, quantity);
+		return new ResponseEntity<>(productInStock ? "Product is in stock for the requested quantity"
+				: "Insufficient stock for Product ID: " + id, HttpStatus.OK);
 	}
 }

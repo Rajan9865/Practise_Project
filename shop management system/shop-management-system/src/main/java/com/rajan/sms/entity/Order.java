@@ -19,6 +19,7 @@ import lombok.Setter;
 
 /**
  * com.rajan.sms.entity
+ * 
  * @author Rajan kumar
  */
 @Getter
@@ -28,16 +29,16 @@ import lombok.Setter;
 @Entity
 @Table(name = "orders")
 public class Order {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	private Customer customerId;
-	
+
 	@ManyToMany
-	private List<Product>products;
-	
-	private Double	totalPrize;
+	private List<Product> products;
+
+	private Double totalPrize;
 }

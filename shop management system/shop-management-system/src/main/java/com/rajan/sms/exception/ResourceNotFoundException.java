@@ -15,10 +15,11 @@ public class ResourceNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	private final String resourceName;
-    private final Long resourceId;
+	private final Long resourceId;
+
 	public ResourceNotFoundException(String resourceName, Long resourceId) {
 		super(resourceName + " with ID " + resourceId + " not found");
-		this.resourceName=resourceName;
-		this.resourceId=resourceId;
+		this.resourceName = resourceName;
+		this.resourceId = resourceId;
 	}
 }

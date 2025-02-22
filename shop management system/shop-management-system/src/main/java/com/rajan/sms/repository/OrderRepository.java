@@ -9,8 +9,9 @@ import com.rajan.sms.entity.Order;
 
 /**
  * com.rajan.sms.repository
- *@author Rajan kumar
+ * 
+ * @author Rajan kumar
  */
-public interface OrderRepository extends JpaRepository<Order, Long>{
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
 }

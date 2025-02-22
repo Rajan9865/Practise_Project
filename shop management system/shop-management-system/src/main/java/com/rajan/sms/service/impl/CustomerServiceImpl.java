@@ -27,18 +27,18 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	@Override
 	public Customer addCustomer(CustomerDTO customerDTO) {
 		log.info("Adding new customer: {}", customerDTO.getName());
-		Customer customer=new Customer();
+		Customer customer = new Customer();
 		customer.setName(customerDTO.getName());
 		customer.setEmail(customerDTO.getEmail());
 		customer.setAddress(customerDTO.getAddress());
 //		customerRepository.save(customer);
-		 Customer savedCustomer = customerRepository.save(customer);
-		 log.info("Customer added with ID: {}", savedCustomer.getId());
-		 return savedCustomer;
+		Customer savedCustomer = customerRepository.save(customer);
+		log.info("Customer added with ID: {}", savedCustomer.getId());
+		return savedCustomer;
 	}
 
 	@Override
@@ -67,14 +67,14 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Customer> getAllCustomers() {
 		log.info("Fetching all customers");
-		List<Customer>customers=customerRepository.findAll();
+		List<Customer> customers = customerRepository.findAll();
 		log.info("Total customers fetched: {}", customers.size());
 		return customers;
 	}
 
 	@Override
 	public Customer getCustomerById(Long id) {
-		 log.info("Fetching customer with ID: {}", id);
+		log.info("Fetching customer with ID: {}", id);
 		return customerRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer not found with id :", id));
 	}

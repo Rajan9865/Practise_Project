@@ -18,19 +18,18 @@ import lombok.Setter;
 public class ErrorResponse {
 
 	private LocalDateTime timestamp;
-    private int statusCode;
-    private String message;
-    private String details;
-    private String path;
-    
-    public ErrorResponse(int statusCode,String message,String details,String path)
-    {
-    	this.timestamp=LocalDateTime.now();
-    	this.statusCode=statusCode;
-    	this.message=message;
-    	this.details=details;
-    	this.path=path;
-    	
-    }
+	private int statusCode;
+	private String message;
+	private String details;
+	private String path;
+
+	public ErrorResponse(int statusCode, String message, String details, String path) {
+		this.timestamp = LocalDateTime.now();
+		this.statusCode = statusCode;
+		this.message = message;
+		this.details = details;
+		this.path = path;
+
+	}
 
 }

@@ -14,7 +14,7 @@ import com.rajan.sms.entity.Order;
  * @author Rajan kumar
  */
 public interface OrderService {
-	
+
 	Order placeOrder(OrderDTO orderDTO);
 
 	List<Order> getAllOrders();

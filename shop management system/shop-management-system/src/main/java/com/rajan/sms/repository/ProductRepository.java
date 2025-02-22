@@ -10,9 +10,10 @@ import com.rajan.sms.entity.Product;
 
 /**
  * com.rajan.sms.repository
- *@author Rajan kumar
+ * 
+ * @author Rajan kumar
  */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-	
+
 }

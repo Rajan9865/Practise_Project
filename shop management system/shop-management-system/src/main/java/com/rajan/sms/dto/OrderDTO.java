@@ -24,9 +24,9 @@ public class OrderDTO {
 
 	@NotEmpty(message = "Product IDs cannot be empty")
 	private List<Long> productIds;
-	
+
 	private List<Integer> quantities;
-	
+
 	private Double totalPrice;
 
 }

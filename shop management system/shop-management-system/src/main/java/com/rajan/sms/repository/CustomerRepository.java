@@ -9,8 +9,9 @@ import com.rajan.sms.entity.Customer;
 
 /**
  * com.rajan.sms.repository
- *@author Rajan kumar
+ * 
+ * @author Rajan kumar
  */
-public interface CustomerRepository extends JpaRepository<Customer, Long>{
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 }

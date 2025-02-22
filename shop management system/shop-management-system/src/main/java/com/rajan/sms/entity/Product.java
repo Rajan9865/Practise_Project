@@ -18,7 +18,7 @@ import lombok.Setter;
 /**
  * com.rajan.sms.entity
  * 
- * @author rajan kumar 
+ * @author rajan kumar
  */
 @Setter
 @Getter
@@ -37,7 +37,7 @@ public class Product {
 	private Double price;
 
 	private int stock;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;

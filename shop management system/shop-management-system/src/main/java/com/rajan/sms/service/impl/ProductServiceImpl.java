@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
 
@@ -48,36 +48,36 @@ public class ProductServiceImpl implements ProductService {
 //		}
 //		product.setCategory(categoryOptional.get());
 //		return productRepository.save(product);
-		
+
 		if (product.getCategory() == null) {
-	        throw new CategoryNotFoundException("Category is null");
-	    }
+			throw new CategoryNotFoundException("Category is null");
+		}
 		Optional<Category> categoryOptional = categoryRepository.findById(product.getCategory().getId());
-	    if (categoryOptional.isEmpty()) {
-	        throw new CategoryNotFoundException("Category not found");
-	    }
-	    product.setCategory(categoryOptional.get());
-	    return productRepository.save(product);
+		if (categoryOptional.isEmpty()) {
+			throw new CategoryNotFoundException("Category not found");
+		}
+		product.setCategory(categoryOptional.get());
+		return productRepository.save(product);
 	}
 
 	@Override
 	public Product updateProduct(Long id, Product product) {
 		log.info("Updating product with ID: {}", id);
 		Product existingProduct = productRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Product not found",id));
+				.orElseThrow(() -> new ResourceNotFoundException("Product not found", id));
 		existingProduct.setName(product.getName());
 		existingProduct.setPrice(product.getPrice());
 		existingProduct.setStock(product.getStock());
-		
-		if (product.getCategory()!=null) {
+
+		if (product.getCategory() != null) {
 			Optional<Category> categoryOptional = categoryRepository.findById(product.getCategory().getId());
 			if (categoryOptional.isEmpty()) {
 				throw new CategoryNotFoundException("Category not found");
 			}
 			existingProduct.setCategory(categoryOptional.get());
-			
+
 		}
-		
+
 		Product updateProduct = productRepository.save(existingProduct);
 		log.info("Updating product with ID: {}", id);
 		return updateProduct;
@@ -87,8 +87,8 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProduct(Long id) {
 		log.info("Deleting product with ID: {}", id);
 		if (!productRepository.existsById(id)) {
-			 log.error("Product not found with ID: {}", id);
-			throw new ResourceNotFoundException("product",id);
+			log.error("Product not found with ID: {}", id);
+			throw new ResourceNotFoundException("product", id);
 		}
 		productRepository.deleteById(id);
 		log.info("Product deleted with ID: {}", id);
@@ -98,13 +98,13 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getAllProducts() {
 		log.info("Fetching all products");
 		List<Product> allproducts = productRepository.findAll();
-		log.info("total product fetch {}",allproducts.size());
+		log.info("total product fetch {}", allproducts.size());
 		return allproducts;
 	}
 
 	@Override
 	public Product getProductById(Long id) {
-		 log.info("Fetching product with ID: {}", id);
+		log.info("Fetching product with ID: {}", id);
 		return productRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: ", id));
 
@@ -112,9 +112,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void updateStock(Long productId, int quantity) {
-		 log.info("Updating stock for product ID: {} by quantity: {}", productId, quantity);
+		log.info("Updating stock for product ID: {} by quantity: {}", productId, quantity);
 		Product product = productRepository.findById(productId)
-				.orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: ",productId));
+				.orElseThrow(() -> new ResourceNotFoundException("Product not found with ID: ", productId));
 
 		if (product.getStock() < quantity) {
 			log.error("Not enough stock for product: {}", product.getName());
