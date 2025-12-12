@@ -9,14 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="shop-management-system" />
         <module name="employee-management-system-backends" />
-      </profile>
-      <profile name="Annotation profile for order-management-service" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-        </processorPath>
         <module name="order-management-service" />
       </profile>
     </annotationProcessing>
