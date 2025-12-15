@@ -6,10 +6,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author Rajan kumar
+ * Customer Entity
+ *
+ * <p>
+ * This class represents the Customer entity and is mapped
+ * to the "customers" table in the database.
+ * </p>
+ *
+ * <p>
+ * It stores basic customer information such as first name,
+ * last name, and email address.
+ * </p>
+ *
+ * @author Rajan Kumar
  * @version 1.0
- * Practise_Project
- * @since 12/12/2025
+ * @since 12-12-2024
  */
 @Entity
 @Table(name = "customers")
@@ -20,7 +31,10 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    /**
+     * First name of the customer.
+     * This field cannot be null.
+     */
     @Column(name = "first_name",nullable = false)
     private String firstName;
 
