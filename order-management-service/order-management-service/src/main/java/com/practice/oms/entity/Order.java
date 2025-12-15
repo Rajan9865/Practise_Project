@@ -53,6 +53,9 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
+    /**
+     * Total price of the order.
+     */
     @Column(nullable = false)
     private BigDecimal totalPrice;
 
