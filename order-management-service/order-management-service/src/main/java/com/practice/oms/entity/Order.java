@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class Order {
      * Customer who placed the order.
      * Many orders can belong to one customer.
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
@@ -53,18 +54,29 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
-    @Column(nullable = false)
+    /**
+     * Total price before discount.
+     */
+    @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
-    @Column(nullable = false)
+    /**
+     * Discount applied on the order.
+     */
+    @Column(name = "discount_price", precision = 10, scale = 2)
     private BigDecimal discountPrice;
 
     /**
-     * Current status of the order.
-     * Stored as a String in the database.
+     * Current order status.
      */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "order_status", nullable = false)
     private OrderStatus orderStatus;
+
+    /**
+     * Order creation timestamp.
+     */
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 }
