@@ -31,16 +31,29 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long id;
 
-    @Column(nullable = false)
+    /**
+     * Name of the product.
+     */
+    @Column(name = "product_name", nullable = false, length = 100)
     private String productName;
 
+    /**
+     * Description of the product.
+     */
+    @Column(name = "product_description", length = 255)
     private String productDescription;
 
-    @Column(nullable = false)
+    /**
+     * Price of the product.
+     */
+    @Column(name = "product_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal productPrice;
 
-    @Column(nullable = false)
+    /**
+     * Available stock quantity.
+     */
+    @Column(name = "product_stock", nullable = false)
     private Integer productStock;
 }

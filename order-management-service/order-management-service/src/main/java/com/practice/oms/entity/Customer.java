@@ -1,5 +1,6 @@
 package com.practice.oms.entity;
 
+import ch.qos.logback.classic.model.LevelModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +24,10 @@ import lombok.NoArgsConstructor;
  * @since 12-12-2024
  */
 @Entity
-@Table(name = "customers")
+@Table(
+        name = "customers",
+        uniqueConstraints = @UniqueConstraint(columnNames = "email")
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -35,13 +39,17 @@ public class Customer {
      * First name of the customer.
      * This field cannot be null.
      */
-    @Column(name = "first_name",nullable = false)
+    @Column(name = "first_name",nullable = false, length = 50)
     private String firstName;
 
-    @Column(name = "last_name ", nullable = false)
+    @Column(name = "last_name", nullable = false,length = 50)
     private String lastName;
 
-    @Column(nullable = false,unique = true)
+    /**
+     * Email address of the customer.
+     * Must be unique.
+     */
+    @Column(nullable = false,unique = true,length = 100)
     private String email;
 
 }
