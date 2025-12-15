@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
@@ -32,11 +33,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    @Column(nullable = false)
     private String productName;
 
     private String productDescription;
 
+    @Column(nullable = false)
     private BigDecimal productPrice;
 
+    @Column(nullable = false)
     private Integer productStock;
 }
