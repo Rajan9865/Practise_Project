@@ -7,4 +7,9 @@ package com.practice.oms.dto;
  * @since 12/15/2025
  */
 public class Hello {
+    private  String message;
+    public String getMessage() {
+        return message;
+    }
+    public void setMessage(String message) {}
 }
