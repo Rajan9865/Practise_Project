@@ -39,17 +39,17 @@ public class Customer {
      * First name of the customer.
      * This field cannot be null.
      */
-    @Column(name = "first_name",nullable = false, length = 50)
+    @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false,length = 50)
+    @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
     /**
      * Email address of the customer.
      * Must be unique.
      */
-    @Column(nullable = false,unique = true,length = 100)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
 }
