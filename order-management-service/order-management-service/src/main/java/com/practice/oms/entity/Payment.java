@@ -1,6 +1,7 @@
 package com.practice.oms.entity;
 
 import com.practice.oms.enums.PaymentMode;
+import com.practice.oms.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
