@@ -1,6 +1,7 @@
 package com.usermanagement.user_management_system.exception;
 
-import com.usermanagement.user_management_system.util.ApiResponse;
+import com.usermanagement.user_management_system.util.ApiResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,13 +17,14 @@ import java.util.Map;
  * Practise_Project
  * @since 7/16/2026
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleUserNotFound(UserNotFoundException ex) {
-
-        ApiResponse<Object> response = ApiResponse.builder()
+    public ResponseEntity<ApiResult<Object>> handleUserNotFound(UserNotFoundException ex) {
+        log.error("UserNotFoundException : {}", ex.getMessage());
+        ApiResult<Object> response = ApiResult.builder()
                 .success(false)
                 .message(ex.getMessage())
                 .data(null)
@@ -32,9 +34,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvalidUserException.class)
-    public ResponseEntity<ApiResponse<Object>> handleInvalidUser(InvalidUserException ex) {
+    public ResponseEntity<ApiResult<Object>> handleInvalidUser(InvalidUserException ex) {
 
-        ApiResponse<Object> response = ApiResponse.builder()
+        ApiResult<Object> response = ApiResult.builder()
                 .success(false)
                 .message(ex.getMessage())
                 .data(null)
@@ -56,9 +58,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> handleException(Exception ex) {
-
-        ApiResponse<Object> response = ApiResponse.builder()
+    public ResponseEntity<ApiResult<Object>> handleException(Exception ex) {
+        log.error("Unexpected Exception", ex);
+        ApiResult<Object> response = ApiResult.builder()
                 .success(false)
                 .message(ex.getMessage())
                 .data(null)
