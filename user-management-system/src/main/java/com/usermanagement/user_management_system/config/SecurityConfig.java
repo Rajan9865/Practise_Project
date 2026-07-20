@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
- * @author lenovo
+ * @author Rajan kumar
  * @version 1.0
  * Practise_Project
  * @since 7/16/2026
@@ -45,7 +45,8 @@ public class SecurityConfig {
                         frameOptions -> frameOptions.sameOrigin()
                 ))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**")
+//                        .requestMatchers("/h2-console/**")
+                        .requestMatchers("/h2-console/**","/swagger-ui/**","/v3/api-docs/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
