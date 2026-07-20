@@ -7,6 +7,8 @@ import com.usermanagement.user_management_system.exception.UserNotFoundException
 import com.usermanagement.user_management_system.repository.UserRepository;
 import com.usermanagement.user_management_system.service.UserService;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,9 +61,14 @@ public class CollectionUserService implements UserService {
     }
 
     @Override
-    public List<UserResponseDto> getAllUsers() {
-       return users.values().stream().toList();
+    public Page<UserResponseDto> getallUsers(Pageable pageable) {
+        return null;
     }
+
+//    @Override
+//    public List<UserResponseDto> getAllUsers() {
+//       return users.values().stream().toList();
+//    }
 
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto request) {
@@ -83,5 +90,10 @@ public class CollectionUserService implements UserService {
             throw new UserNotFoundException("User not found with id : " + id);
         }
         users.remove(id);
+    }
+
+    @Override
+    public List<UserResponseDto> searchUsers(String username) {
+        return List.of();
     }
 }
