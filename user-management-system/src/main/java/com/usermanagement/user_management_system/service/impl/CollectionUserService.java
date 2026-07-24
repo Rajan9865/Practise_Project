@@ -2,6 +2,7 @@ package com.usermanagement.user_management_system.service.impl;
 
 import com.usermanagement.user_management_system.dto.UserRequestDto;
 import com.usermanagement.user_management_system.dto.UserResponseDto;
+import com.usermanagement.user_management_system.enums.Role;
 import com.usermanagement.user_management_system.exception.InvalidUserException;
 import com.usermanagement.user_management_system.exception.UserNotFoundException;
 import com.usermanagement.user_management_system.repository.UserRepository;
@@ -95,5 +96,10 @@ public class CollectionUserService implements UserService {
     @Override
     public List<UserResponseDto> searchUsers(String username) {
         return List.of();
+    }
+
+    @Override
+    public UserResponseDto updateUserRole(Long id, Role role) {
+        return null;
     }
 }
