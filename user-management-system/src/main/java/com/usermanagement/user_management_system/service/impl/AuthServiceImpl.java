@@ -36,18 +36,21 @@ public class AuthServiceImpl implements AuthServices {
     public LoginResponse login(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),
                 request.getPassword()));
-UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String token = jwtService.generateJwtToken(userDetails);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUser());
+
         return LoginResponse.builder()
                 .accessToken(token)
+                .refreshToken(refreshToken.getToken())
                 .tokenType("Bearer")
                 .expiresIn(jwtProperties.getExpiration())
                 .build();
     }
 
     @Override
-    public LoginResponse refreshToken(
-            RefreshTokenRequest request) {
+        public LoginResponse refreshToken(
+                RefreshTokenRequest request) {
         RefreshToken refreshToken =refreshTokenService.verifyToken(request.getRefreshToken());
         User user = refreshToken.getUser();
         CustomUserDetails userDetails =new CustomUserDetails(user);
