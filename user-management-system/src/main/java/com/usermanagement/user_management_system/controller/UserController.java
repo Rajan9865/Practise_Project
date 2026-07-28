@@ -2,13 +2,16 @@ package com.usermanagement.user_management_system.controller;
 
 import com.usermanagement.user_management_system.dto.UserRequestDto;
 import com.usermanagement.user_management_system.dto.UserResponseDto;
+import com.usermanagement.user_management_system.enums.Role;
 import com.usermanagement.user_management_system.service.UserService;
 import com.usermanagement.user_management_system.util.ApiResult;
+import com.usermanagement.user_management_system.util.ResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,16 +48,17 @@ public class UserController {
             @ApiResponse(responseCode = "400",description = "Validation failed"),
             @ApiResponse(responseCode = "409",description = "Username or email already exists")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResult<UserResponseDto>> createUser(
-            @Valid @RequestBody UserRequestDto request) {
+            @Valid @RequestBody UserRequestDto request,
+            HttpServletRequest httpRequest) {
         UserResponseDto response = userService.createUser(request);
-        ApiResult<UserResponseDto> apiResponse = ApiResult.<UserResponseDto>builder()
-                .success(true)
-                .message("User created successfully.")
-                .data(response)
-                .build();
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(apiResponse);
+                .body(ResponseUtil.success(
+                        response,
+                        "User created successfully.",
+                        HttpStatus.CREATED,
+                        httpRequest.getRequestURI()));
     }
 
     /**
@@ -62,15 +67,16 @@ public class UserController {
 
     @Operation(summary = "Get User By Id")
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResult<UserResponseDto>> getUserById(
-            @PathVariable Long id) {
+            @PathVariable Long id, HttpServletRequest request) {
         UserResponseDto response = userService.getUserById(id);
-        ApiResult<UserResponseDto> apiResponse = ApiResult.<UserResponseDto>builder()
-                .success(true)
-                .message("User fetched successfully.")
-                .data(response)
-                .build();
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.ok(
+                ResponseUtil.success(
+                        response,
+                        "User fetched successfully.",
+                        HttpStatus.OK,
+                        request.getRequestURI()));
     }
 
     /**
@@ -94,18 +100,19 @@ public class UserController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String direction
+            @RequestParam(defaultValue = "asc") String direction,
+            HttpServletRequest request
     ) {
         Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
         PageRequest pageable = PageRequest.of(page, size, sort);
         Page<UserResponseDto> users = userService.getallUsers(pageable);
-        ApiResult<Page<UserResponseDto>> response = ApiResult.<Page<UserResponseDto>>builder()
-                .success(true)
-                .message("Users fetched successfully.")
-                .data(users)
-                .build();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+                ResponseUtil.success(
+                        users,
+                        "Users fetched successfully.",
+                        HttpStatus.OK,
+                        request.getRequestURI()));
     }
 
     /**
@@ -113,16 +120,18 @@ public class UserController {
      */
     @Operation(summary = "Update User")
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResult<UserResponseDto>> updateUser(
             @PathVariable Long id,
-            @Valid @RequestBody UserRequestDto request) {
+            @Valid @RequestBody UserRequestDto request,
+            HttpServletRequest httpRequest) {
         UserResponseDto response = userService.updateUser(id, request);
-        ApiResult<UserResponseDto> apiResponse = ApiResult.<UserResponseDto>builder()
-                .success(true)
-                .message("User updated successfully.")
-                .data(response)
-                .build();
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.ok(
+                ResponseUtil.success(
+                        response,
+                        "User updated successfully.",
+                        HttpStatus.OK,
+                        httpRequest.getRequestURI()));
     }
 
     /**
@@ -130,9 +139,12 @@ public class UserController {
      */
     @Operation(summary = "Delete User")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResult<Object>> deleteUser(@PathVariable Long id,
+                                           HttpServletRequest request) {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ResponseUtil.success(null,"User deleted successfully.",
+                        HttpStatus.OK,request.getRequestURI()));
     }
 
     /**
@@ -143,14 +155,29 @@ public class UserController {
     @Operation(summary = "search users")
     @GetMapping("search")
     public ResponseEntity<ApiResult<List<UserResponseDto>>> searchUsers(
-            @RequestParam String username
+            @RequestParam String username,
+            HttpServletRequest request
     ) {
-        List<UserResponseDto> user = userService.searchUsers(username);
-        ApiResult<List<UserResponseDto>> response = ApiResult.<List<UserResponseDto>>builder()
-                .success(true)
-                .message("Users fetched successfully.")
-                .data(user)
-                .build();
-        return ResponseEntity.ok(response);
+        List<UserResponseDto> users = userService.searchUsers(username);
+        return ResponseEntity.ok(
+                ResponseUtil.success(
+                        users,
+                        "Users fetched successfully.",
+                        HttpStatus.OK,
+                        request.getRequestURI()));
+    }
+    @PutMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "update user role")
+    public ResponseEntity<ApiResult<UserResponseDto>> updateUserRole(
+            @PathVariable Long id,
+            @Valid @RequestBody Role role,
+            HttpServletRequest request
+    ){
+        UserResponseDto response = userService.updateUserRole(id, role);
+        return ResponseEntity.ok(ResponseUtil.success(response,
+        "User role updated successfully",
+                HttpStatus.OK,
+                request.getRequestURI()));
     }
 }

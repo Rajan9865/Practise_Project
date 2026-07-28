@@ -1,5 +1,7 @@
 package com.usermanagement.user_management_system.entity;
 
+import com.usermanagement.user_management_system.entity.base.BaseEntity;
+import com.usermanagement.user_management_system.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,11 +18,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -33,4 +31,11 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 }

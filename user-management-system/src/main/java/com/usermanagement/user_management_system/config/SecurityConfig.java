@@ -1,3 +1,4 @@
+/*
 package com.usermanagement.user_management_system.config;
 
 
@@ -15,19 +16,17 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
+*/
 /**
  * @author Rajan kumar
  * @version 1.0
  * Practise_Project
  * @since 7/16/2026
- */
+ *//*
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
     @Bean
     InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder passwordEncoder) {
         UserDetails admin =
@@ -54,3 +53,4 @@ public class SecurityConfig {
         return http.build();
     }
 }
+*/
